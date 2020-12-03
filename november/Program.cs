@@ -8,8 +8,9 @@ Texture2D car = Raylib.LoadTexture("car.png");
 
 
 string scene = "intro";
-float x = 0;
-float y = 0;
+float backgroundY = 0;
+float carX = 400;
+float carY = 300;
 
 
 
@@ -19,48 +20,73 @@ float y = 0;
 while (!Raylib.WindowShouldClose())
 {
 
-   
+
+
 
     if (scene == "intro")
     {
+        carX = 400;
+        carY = 300;
+
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
         {
             scene = "game";
         }
     }
+
+
     else if (scene == "game")
     {
-      
+        backgroundY += 0.1f;
 
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+        if (backgroundY > 1080)
         {
-            x += 1.5f;
-        }
-
-        else if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
-        {
-            x -= 1.5f;
-        }
-
-        else if (Raylib.IsKeyDown(KeyboardKey.KEY_DOWN))
-        {
-            y += 1.5f;
+            backgroundY = 0;
 
         }
 
-        else if (Raylib.IsKeyDown(KeyboardKey.KEY_UP))
+        if (carY > Raylib.GetScreenHeight() || carX > Raylib.GetScreenWidth() || carY < 0 || carX < 0)
         {
-            y -= 1.5f;
-
+            scene = "gameover";
         }
-       
 
-        
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_TAB))
         {
             scene = "intro";
         }
+
+
+
+
+
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
+        {
+            carX += 0.8f;
+        }
+
+        else if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
+        {
+            carX -= 0.8f;
+        }
+
+
+
     }
+
+    else if (scene == "gameover")
+    {
+        Raylib.ClearBackground(Color.RED);
+        Raylib.DrawText("GAME OVER! Tryck tabb for att starta om", 100, 50, 20, Color.WHITE);
+
+
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_TAB))
+        {
+            scene = "intro";
+        }
+
+    }
+
+
 
     // DRAWING:
     Raylib.BeginDrawing();
@@ -72,10 +98,11 @@ while (!Raylib.WindowShouldClose())
     else if (scene == "game")
     {
         Raylib.ClearBackground(Color.MAROON);
-        Raylib.DrawTexture(background, 0, 0, Color.WHITE);
-        Raylib.DrawTexture(car, (int)x, (int)y, Color.WHITE);
-    
-        
+        Raylib.DrawTexture(background, 0, (int)backgroundY, Color.WHITE);
+        Raylib.DrawTexture(background, 0, (int)backgroundY - 1080, Color.WHITE);
+        Raylib.DrawTexture(car, (int)carX, (int)carY, Color.WHITE);
+
+
     }
     Raylib.EndDrawing();
 }
