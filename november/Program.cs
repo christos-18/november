@@ -4,7 +4,12 @@ using Raylib_cs;
 Raylib.InitWindow(1920, 1080, "Bil spel");
 Texture2D background = Raylib.LoadTexture("highway.png");
 Texture2D car = Raylib.LoadTexture("car.png");
+Texture2D introbild = Raylib.LoadTexture("intro.png");
+Texture2D gameover = Raylib.LoadTexture("gameover.png");
 
+Rectangle enemyRect = new Rectangle(50, 60, 30, 30);
+
+Color red = new Color(255, 0, 0, 128);
 
 
 string scene = "intro";
@@ -39,6 +44,8 @@ while (!Raylib.WindowShouldClose())
     {
         backgroundY += 0.1f;
 
+        Raylib.DrawRectangleRec(enemyRect, red);
+
         if (backgroundY > 1080)
         {
             backgroundY = 0;
@@ -71,6 +78,13 @@ while (!Raylib.WindowShouldClose())
 
 
 
+        if (Raylib.CheckCollisionRecs(car, enemyRect)) // funkar inte eftersom det är en bild (hur gör man då)
+        {
+            scene = "gameover";
+        }
+
+
+
     }
 
     else if (scene == "gameover")
@@ -94,6 +108,7 @@ while (!Raylib.WindowShouldClose())
     if (scene == "intro")
     {
         Raylib.ClearBackground(Color.LIME);
+        Raylib.DrawTexture(introbild, 0, 0, Color.WHITE);
     }
     else if (scene == "game")
     {
@@ -104,5 +119,14 @@ while (!Raylib.WindowShouldClose())
 
 
     }
+    else if (scene == "gameover")
+    {
+        Raylib.ClearBackground(Color.LIME);
+        Raylib.DrawTexture(gameover, 0, 0, Color.WHITE);
+
+    }
+
+
+
     Raylib.EndDrawing();
 }
