@@ -9,7 +9,7 @@ Texture2D gameover = Raylib.LoadTexture("gameover.png");
 Texture2D cone = Raylib.LoadTexture("cone.png");
 
 Rectangle enemyRect = new Rectangle(100, 100, cone.width, cone.height);
-Rectangle playerRect = new Rectangle(400, 300, car.width, car.height);
+Rectangle playerRect = new Rectangle(268, 586, car.width, car.height);
 
 Color red = new Color(255, 0, 0, 128);
 
@@ -36,7 +36,7 @@ while (!Raylib.WindowShouldClose())
         playerRect.y = 300;
 
         enemyRect.x = 900;
-        enemyRect.y = 900;
+        enemyRect.y = 3000;
 
 
 
@@ -62,7 +62,7 @@ while (!Raylib.WindowShouldClose())
 
         }
 
-        if (coneY > 4000)
+        if (coneY > 8000)
         {
             coneY = 0;
 
