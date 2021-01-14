@@ -6,16 +6,18 @@ Texture2D background = Raylib.LoadTexture("highway.png");
 Texture2D car = Raylib.LoadTexture("car.png");
 Texture2D introbild = Raylib.LoadTexture("intro.png");
 Texture2D gameover = Raylib.LoadTexture("gameover.png");
+Texture2D cone = Raylib.LoadTexture("cone.png");
 
-Rectangle enemyRect = new Rectangle(50, 60, 30, 30);
+Rectangle enemyRect = new Rectangle(100, 100, cone.width, cone.height);
+Rectangle playerRect = new Rectangle(400, 300, car.width, car.height);
 
 Color red = new Color(255, 0, 0, 128);
 
 
 string scene = "intro";
 float backgroundY = 0;
-float carX = 400;
-float carY = 300;
+float coneY = 0;
+
 
 
 
@@ -30,8 +32,13 @@ while (!Raylib.WindowShouldClose())
 
     if (scene == "intro")
     {
-        carX = 400;
-        carY = 300;
+        playerRect.x = 400;
+        playerRect.y = 300;
+
+        enemyRect.x = 900;
+        enemyRect.y = 900;
+
+
 
         if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
         {
@@ -43,6 +50,9 @@ while (!Raylib.WindowShouldClose())
     else if (scene == "game")
     {
         backgroundY += 0.1f;
+        coneY += 0.2f;
+
+
 
         Raylib.DrawRectangleRec(enemyRect, red);
 
@@ -52,7 +62,17 @@ while (!Raylib.WindowShouldClose())
 
         }
 
-        if (carY > Raylib.GetScreenHeight() || carX > Raylib.GetScreenWidth() || carY < 0 || carX < 0)
+        if (coneY > 4000)
+        {
+            coneY = 0;
+
+        }
+
+
+
+
+
+        if (playerRect.y > Raylib.GetScreenHeight() || playerRect.x > Raylib.GetScreenWidth() || playerRect.y < 0 || playerRect.x < 0)
         {
             scene = "gameover";
         }
@@ -68,17 +88,20 @@ while (!Raylib.WindowShouldClose())
 
         if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT))
         {
-            carX += 0.8f;
+            playerRect.x += 0.8f;
         }
 
         else if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT))
         {
-            carX -= 0.8f;
+            playerRect.x -= 0.8f;
         }
 
 
 
-        if (Raylib.CheckCollisionRecs(car, enemyRect)) // funkar inte eftersom det är en bild (hur gör man då)
+
+
+
+        if (Raylib.CheckCollisionRecs(playerRect, enemyRect))
         {
             scene = "gameover";
         }
@@ -115,7 +138,10 @@ while (!Raylib.WindowShouldClose())
         Raylib.ClearBackground(Color.MAROON);
         Raylib.DrawTexture(background, 0, (int)backgroundY, Color.WHITE);
         Raylib.DrawTexture(background, 0, (int)backgroundY - 1080, Color.WHITE);
-        Raylib.DrawTexture(car, (int)carX, (int)carY, Color.WHITE);
+        Raylib.DrawTexture(car, (int)playerRect.x, (int)playerRect.y, Color.WHITE);
+
+        //enemy
+        Raylib.DrawTexture(cone, 1000, (int)coneY, Color.WHITE);
 
 
     }
